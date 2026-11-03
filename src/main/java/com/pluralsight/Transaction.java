@@ -6,16 +6,16 @@ import java.time.LocalTime;
 public class Transaction {
     private LocalDate date;
     private LocalTime time;
-    private String depositType;
-    private String companyName;
-    private double price;
+    private String description;
+    private String vendor;
+    private double amount;
 
-    public Transaction(LocalDate date, LocalTime time, String depositType, String companyName, double price) {
+    public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
-        this.depositType = depositType;
-        this.companyName = companyName;
-        this.price = price;
+        this.description = description;
+        this.vendor = vendor;
+        this.amount = amount;
     }
 
     public LocalDate getDate() {
@@ -26,16 +26,16 @@ public class Transaction {
         return time;
     }
 
-    public String getDepositType() {
-        return depositType;
+    public String getDescription() {
+        return description;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getVendor() {
+        return vendor;
     }
 
-    public double getPrice() {
-        return price;
+    public double getAmount() {
+        return amount;
     }
 
     @Override
@@ -43,9 +43,9 @@ public class Transaction {
         return "Transaction{" +
                 "date=" + date +
                 ", time=" + time +
-                ", depositType='" + depositType + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", vendor='" + vendor + '\'' +
+                ", amount=" + amount +
                 '}';
     }
 }
