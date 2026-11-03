@@ -2,8 +2,10 @@ package com.pluralsight;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -88,18 +90,66 @@ public class FinancialTracker {
             System.out.println("Sorry, ERROR! 1");
         }
     }
+    private static void askAndSaveTransactions(Scanner myscanner, boolean isDeposit) {
+        System.out.println("Enter date and time (yyyy-MMM-dd HH:mm:ss)  ");
+        String dateTimeInput = myscanner.nextLine().trim();
 
-    private static void addDeposit(Scanner scanner) {
-       while (true) {
-           System.out.println("Enter date and time ");
-       }
+        LocalDate date;
+        LocalTime time;
+
+        if (dateTimeInput.isEmpty()) {
+            LocalDateTime now = LocalDateTime.now();
+            date = now.toLocalDate();
+            time = now.toLocalTime();
+        }else {
+            try {
+                LocalDateTime parsedDateTIme = LocalDateTime.parse(dateTimeInput, DATETIME_FMT);
+                date = parsedDateTIme.toLocalDate();
+                time = parsedDateTIme.toLocalTime();
+            }catch (DateTimeParseException e) {
+                System.out.println("Invalid date/time format. Transaction canceled");
+                return;
+            }
+        }
+        System.out.println("Enter description: ");
+        String description = myscanner.nextLine().trim();
+
+        System.out.println("Enter vendor name: ");
+        String vendor = myscanner.nextLine().trim();
+
+        double amount = 0;
+        boolean validAmount = false;
+        while (!validAmount) {
+            System.out.println("Enter amount (Needs to be a positive value.): ");
+            String amountInput = myscanner.nextLine().trim();
+            Double parsedAmount = parseDouble(amountInput);
+            if (parsedAmount == null || parsedAmount <= 0) {
+                System.out.println("Invalid input. (Needs to be a positive value.): ");
+            }else {
+                amount = parsedAmount;
+                validAmount = true;
+            }
+
+        }
+        if (!isDeposit) {
+            amount = -amount;
+        }
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        transactions.add(transaction);
+        try {
+            BufferedWriter mywriter = new BufferedWriter(new FileWriter(FILE_NAME));
+            mywriter.write(transaction.toString());
+            mywriter.newLine();
+            System.out.println("Transaction added successfully! ");
+        } catch (Exception e) {
+            System.out.println("ERRPR: Could not add transaction to file. ");
+        }
     }
 
-    /**
-     * Same prompts as addDeposit.
-     * Amount must be entered as a positive number,
-     * then converted to a negative amount before storing.
-     */
+    private static void addDeposit(Scanner scanner) {
+
+    }
+
     private static void addPayment(Scanner scanner) {
         // TODO
     }
