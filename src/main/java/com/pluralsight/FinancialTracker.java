@@ -57,17 +57,8 @@ public class FinancialTracker {
     }
 
     public static void loadTransactions(String fileName) {
-        File file = new File(fileName);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                System.out.println(ANSI_RED + "Sorry ERROR! Invalid option, try again. " + ANSI_RESET);
-                return;
-            }
-        }
-        transactions.clear();
         try {
+            transactions.clear();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
             String csvLine;
             while ((csvLine = bufferedReader.readLine()) != null) {
