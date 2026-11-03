@@ -1,30 +1,15 @@
 package com.pluralsight;
 
-import java.io.File;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
- * Capstone skeleton – personal finance tracker.
- * ------------------------------------------------
- * File format  (pipe-delimited)
- *     yyyy-MM-dd|HH:mm:ss|description|vendor|amount
- * A deposit has a positive amount; a payment is stored
- * as a negative amount.
- *
- * TODO: create the Transaction class in this package first.
- *       One object = one line of the file. Decide its fields from
- *       the file format above, add a constructor and getters.
- *       This class does not compile until Transaction exists.
- */
+
 public class FinancialTracker {
 
-    /* ------------------------------------------------------------------
-       Shared data and formatters
-       ------------------------------------------------------------------ */
     private static final ArrayList<Transaction> transactions = new ArrayList<>();
     private static final String FILE_NAME = "transactions.csv";
 
@@ -66,33 +51,48 @@ public class FinancialTracker {
         scanner.close();
     }
 
-    /* ------------------------------------------------------------------
-       File I/O
-       ------------------------------------------------------------------ */
-
-    /**
-     * Load transactions from FILE_NAME.
-     * • If the file doesn’t exist, create an empty one so that future writes succeed.
-     * • Each line looks like: date|time|description|vendor|amount
-     */
     public static void loadTransactions(String fileName) {
-        // TODO: create file if it does not exist, then read each line,
-        //       parse the five fields, build a Transaction object,
-        //       and add it to the transactions list.
+        File file = new File(fileName);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Sorry ERROR! 0");
+                return;
+            }
+        }
+        transactions.clear();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
+            String csvLine;
+            while ((csvLine = bufferedReader.readLine()) != null) {
+                if (csvLine.trim().isEmpty()) continue;
+
+                String[] tokens = csvLine.split("\\|");
+                if (tokens.length == 5) {
+                    LocalDate date = LocalDate.parse(tokens[0], DATE_FMT);
+                    LocalTime time = LocalTime.parse(tokens[1], TIME_FMT);
+                    String description = tokens[2];
+                    String vendor = tokens[3];
+                    double amount = Double.parseDouble(tokens[4]);
+
+                    Transaction addTransaction = new Transaction(date, time, description, vendor, amount);
+                    transactions.add(addTransaction);
+
+                }
+                return;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Sorry, no file found. ");
+        } catch (IOException e) {
+            System.out.println("Sorry, ERROR! 1");
+        }
     }
 
-    /* ------------------------------------------------------------------
-       Add new transactions
-       ------------------------------------------------------------------ */
-
-    /**
-     * Prompt for ONE date+time string in the format
-     * "yyyy-MM-dd HH:mm:ss", plus description, vendor, amount.
-     * Validate that the amount entered is positive.
-     * Store the amount as-is (positive) and append to the file.
-     */
     private static void addDeposit(Scanner scanner) {
-        // TODO
+       while (true) {
+           System.out.println("Enter date and time ");
+       }
     }
 
     /**
