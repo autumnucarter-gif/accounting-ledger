@@ -22,6 +22,9 @@ public class FinancialTracker {
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern(TIME_PATTERN);
     private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
+    public static final String ANSI_RED = "\u001B[0m";
+    public static final String ANSI_RESET = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
 
     /* ------------------------------------------------------------------
        Main menu
@@ -47,7 +50,7 @@ public class FinancialTracker {
                 case "P" -> addPayment(scanner);
                 case "L" -> ledgerMenu(scanner);
                 case "X" -> running = false;
-                default -> System.out.println("Invalid option");
+                default -> System.out.println(ANSI_RED + "Invalid option" + ANSI_RESET);
             }
         }
         scanner.close();
@@ -59,7 +62,7 @@ public class FinancialTracker {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                System.out.println("Sorry ERROR! 0");
+                System.out.println(ANSI_RED + "Sorry ERROR! Invalid option, try again. " + ANSI_RESET);
                 return;
             }
         }
@@ -87,7 +90,7 @@ public class FinancialTracker {
         } catch (FileNotFoundException e) {
             System.out.println("Sorry, no file found. ");
         } catch (IOException e) {
-            System.out.println("Sorry, ERROR! 1");
+            System.out.println(ANSI_RED + "Sorry, ERROR! " + ANSI_RESET);
         }
     }
     private static void askAndSaveTransactions(Scanner myscanner, boolean isDeposit) {
@@ -107,7 +110,7 @@ public class FinancialTracker {
                 date = parsedDateTIme.toLocalDate();
                 time = parsedDateTIme.toLocalTime();
             }catch (DateTimeParseException e) {
-                System.out.println("Invalid date/time format. Transaction canceled");
+                System.out.println(ANSI_RED + "Invalid date/time format. Transaction canceled" + ANSI_RESET);
                 return;
             }
         }
@@ -124,7 +127,7 @@ public class FinancialTracker {
             String amountInput = myscanner.nextLine().trim();
             Double parsedAmount = parseDouble(amountInput);
             if (parsedAmount == null || parsedAmount <= 0) {
-                System.out.println("Invalid input. (Needs to be a positive value.): ");
+                System.out.println(ANSI_RED + "Invalid input. (Needs to be a positive value.): " + ANSI_RESET);
             }else {
                 amount = parsedAmount;
                 validAmount = true;
@@ -140,7 +143,7 @@ public class FinancialTracker {
             BufferedWriter mywriter = new BufferedWriter(new FileWriter(FILE_NAME));
             mywriter.write(transaction.toString());
             mywriter.newLine();
-            System.out.println("Transaction added successfully! ");
+            System.out.println(ANSI_GREEN + "Transaction added successfully! " + ANSI_RESET);
         } catch (Exception e) {
             System.out.println("ERRPR: Could not add transaction to file. ");
         }
