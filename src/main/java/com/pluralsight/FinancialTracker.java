@@ -141,11 +141,11 @@ public class FinancialTracker {
     }
 
     private static void addDeposit(Scanner scanner) {
-
+        System.out.println("\n ===== Add Deposit ===== ");
+        askAndSaveTransactions(scanner, true);
     }
 
     private static void addPayment(Scanner scanner) {
-        // TODO
     }
 
     /* ------------------------------------------------------------------
@@ -174,6 +174,9 @@ public class FinancialTracker {
             }
         }
     }
+    private static void transactionRow() {
+        System.out.println();
+    }
 
     /* ------------------------------------------------------------------
        Display helpers: show data in neat columns
@@ -190,7 +193,7 @@ public class FinancialTracker {
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
-            System.out.println("Reports");
+            System.out.println("\n==== Reports Menu ====");
             System.out.println("Choose an option:");
             System.out.println("1) Month To Date");
             System.out.println("2) Previous Month");
@@ -227,8 +230,6 @@ public class FinancialTracker {
     }
 
     private static void customSearch(Scanner scanner) {
-        // TODO – prompt for any combination of date range, description,
-        //        vendor, and exact amount, then display matches
     }
 
     /* ------------------------------------------------------------------
