@@ -61,6 +61,9 @@ public class FinancialTracker {
             transactions.clear();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
             String csvLine;
+
+            bufferedReader.readLine();
+
             while ((csvLine = bufferedReader.readLine()) != null) {
                 if (csvLine.trim().isEmpty()) continue;
 
@@ -85,7 +88,7 @@ public class FinancialTracker {
         }
     }
     private static void askAndSaveTransactions(Scanner myscanner, boolean isDeposit) {
-        System.out.println("Enter date and time (yyyy-MMM-dd HH:mm:ss)  ");
+        System.out.println("Enter date and time (yyyy-MM-dd HH:mm:ss)  ");
         String dateTimeInput = myscanner.nextLine().trim();
 
         LocalDate date;
@@ -176,16 +179,29 @@ public class FinancialTracker {
             }
         }
     }
-    private static void transactionRow() {
-        System.out.println();
+    private static void printTransactions(Transaction t) {
+        System.out.printf("%-12s %-12s %-30s %-25 $%10.2F\n",
+                t.getDate().format(DATE_FMT),
+                t.getTime().format(TIME_FMT),
+                t.getDescription(),
+                t.getVendor(),
+                t.getAmount());
     }
-
     /* ------------------------------------------------------------------
        Display helpers: show data in neat columns
        ------------------------------------------------------------------ */
-    private static void displayLedger() { /* TODO – print all transactions in column format, newest first */ }
+    private static void displayLedger() {
+        for (int i = transactions.size() - 1 ; i >= 0 ; i--) {
+            Transaction t = transactions.get(1);
+            if (t.getAmount() > 0) {
+                printTransactions(t);
+            }
+        }
+    }
 
-    private static void displayDeposits() { /* TODO – only amount > 0               */ }
+    private static void displayDeposits() {
+
+    }
 
     private static void displayPayments() { /* TODO – only amount < 0               */ }
 
@@ -232,11 +248,28 @@ public class FinancialTracker {
     }
 
     private static void customSearch(Scanner scanner) {
+        System.out.println("\n==== Custom Search: (Press enter to skip) ==== ");
+
+        System.out.println("Enter Start Date (yyyy-MM-dd): ");
+        LocalDate startDate = parseDate(scanner.nextLine().trim());
+
+        System.out.println("Enter End Date (yyyy-MM-dd): ");
+        LocalDate endDate = parseDate(scanner.nextLine().trim());
+
+        System.out.println("Enter description : ");
+        String description = scanner.nextLine().trim().toLowerCase();
+
+        System.out.println("Enter the vendor name: ");
+        String vendorName = scanner.nextLine().trim();
+
+        System.out.println("Enter the exact amount: ");
+        Double exactAmount = parseDouble(scanner.nextLine().trim());
+
+
     }
 
-    /* ------------------------------------------------------------------
-       Utility parsers (you can reuse in many places)
-       ------------------------------------------------------------------ */
+
+
     private static LocalDate parseDate(String s) {
         /* TODO – return LocalDate or null */
         return null;
