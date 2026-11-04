@@ -193,14 +193,16 @@ public class FinancialTracker {
     private static void displayLedger() {
         for (int i = transactions.size() - 1 ; i >= 0 ; i--) {
             Transaction t = transactions.get(1);
-            if (t.getAmount() > 0) {
-                printTransactions(t);
-            }
         }
     }
 
     private static void displayDeposits() {
-
+        for (int i = transactions.size() - 1 ; i >= 0 ; i-- ) {
+            Transaction t = transactions.get(i);
+            if (t.getAmount() > 0) {
+                printTransactions(t);
+            }
+        }
     }
 
     private static void displayPayments() { /* TODO – only amount < 0               */ }
