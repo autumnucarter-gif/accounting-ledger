@@ -141,11 +141,13 @@ public class FinancialTracker {
     }
 
     private static void addDeposit(Scanner scanner) {
-        System.out.println("\n ===== Add Deposit ===== ");
+        System.out.println("\n===== Add Deposit ===== ");
         askAndSaveTransactions(scanner, true);
     }
 
     private static void addPayment(Scanner scanner) {
+        System.out.println("\n===== Make Payment ===== ");
+        askAndSaveTransactions(scanner, false);
     }
 
     /* ------------------------------------------------------------------
