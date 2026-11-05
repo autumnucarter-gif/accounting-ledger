@@ -62,7 +62,6 @@ public class FinancialTracker {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
             String csvLine;
 
-            bufferedReader.readLine();
 
             while ((csvLine = bufferedReader.readLine()) != null) {
                 if (csvLine.trim().isEmpty()) continue;
@@ -79,12 +78,9 @@ public class FinancialTracker {
                     transactions.add(addTransaction);
 
                 }
-                return;
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Sorry, no file found. ");
         } catch (IOException e) {
-            System.out.println(ANSI_RED + "Sorry, ERROR! " + ANSI_RESET);
+            System.out.println("Sorry, no file found. ");
         }
     }
     private static void askAndSaveTransactions(Scanner myscanner, boolean isDeposit) {
@@ -180,7 +176,7 @@ public class FinancialTracker {
         }
     }
     private static void printTransactions(Transaction t) {
-        System.out.printf("%-12s %-12s %-30s %-25 $%10.2F\n",
+        System.out.printf("%-12s %-12s %-30s %-25s $%10.2f\n",
                 t.getDate().format(DATE_FMT),
                 t.getTime().format(TIME_FMT),
                 t.getDescription(),
@@ -191,13 +187,19 @@ public class FinancialTracker {
        Display helpers: show data in neat columns
        ------------------------------------------------------------------ */
     private static void displayLedger() {
-        for (int i = transactions.size() - 1 ; i >= 0 ; i--) {
-            Transaction t = transactions.get(1);
+        System.out.println("\n================ All Transactions ================ ");
+        if (transactions.isEmpty()) {
+            System.out.println("None found");
+            return;
+        }
+        for (int i = transactions.size() - 1; i >= 0 ; i--) {
+            Transaction t = transactions.get(i);
+            printTransactions(t);
         }
     }
 
     private static void displayDeposits() {
-        for (int i = transactions.size() - 1 ; i >= 0 ; i-- ) {
+        for (int i = transactions.size() - 1; i >= 0 ; i-- ) {
             Transaction t = transactions.get(i);
             if (t.getAmount() > 0) {
                 printTransactions(t);
@@ -205,7 +207,14 @@ public class FinancialTracker {
         }
     }
 
-    private static void displayPayments() { /* TODO – only amount < 0               */ }
+    private static void displayPayments() {
+        for (int i = transactions.size() - 1; i>= 0; i--) {
+            Transaction t = transactions.get(i);
+            if (t.getAmount() < 0 ) {
+                printTransactions(t);
+            }
+        }
+    }
 
     /* ------------------------------------------------------------------
        Reports menu
