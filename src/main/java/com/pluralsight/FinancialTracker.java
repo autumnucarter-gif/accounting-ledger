@@ -233,13 +233,30 @@ public class FinancialTracker {
             System.out.println("0) Back");
 
             String input = scanner.nextLine().trim();
+            LocalDate now = LocalDate.now();
 
             switch (input) {
-                case "1" -> {/* TODO – month-to-date report */ }
-                case "2" -> {/* TODO – previous month report */ }
-                case "3" -> {/* TODO – year-to-date report   */ }
-                case "4" -> {/* TODO – previous year report  */ }
-                case "5" -> {/* TODO – prompt for vendor then report */ }
+                case "1" -> {filterTransactionsByDate(now.withDayOfMonth(1), now);}
+
+                // Previous Month to date range
+                case "2" -> {
+                    LocalDate startOfPreviousMonth = now.minusMonths(1).withDayOfMonth(1);
+                    LocalDate endOfPreviousMonth = now.minusMonths(1).withDayOfMonth(now.minusMonths(1).lengthOfMonth());
+                    System.out.println("\n[ Report: Previous Month (" + startOfPreviousMonth + " to " + endOfPreviousMonth + ")]");
+                    filterTransactionsByDate(startOfPreviousMonth, endOfPreviousMonth);
+                }
+                case "3" -> {filterTransactionsByDate(now.withDayOfYear(1), now);}
+                case "4" -> {
+                    LocalDate startOfPreviousYear = now.minusYears(1).withDayOfYear(1);
+                    LocalDate endOfPreviousYear = now.minusYears(1).withDayOfYear(now.minusYears(1).lengthOfYear());
+                    System.out.println("\n[ Report: Previous Year (" + startOfPreviousYear + " to " + endOfPreviousYear + ")]");
+                    filterTransactionsByDate(startOfPreviousYear, endOfPreviousYear);
+                }
+                case "5" -> {
+                    System.out.println("Enter vendor name here: ");
+                    String vendor = scanner.nextLine().trim();
+                    filterTransactionsByVendor(vendor);
+                }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option");
