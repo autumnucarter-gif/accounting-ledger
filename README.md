@@ -1,4 +1,4 @@
-# Project Title
+# Financial Tracker
 
 <!-- HOW TO USE THIS TEMPLATE
      Save it as README.md at the root of your project, next to pom.xml. Replace every comment like this one
@@ -6,26 +6,16 @@
      Two sections are optional and say so: Class Diagram, and Data and configuration. When your project does not
      need one, delete the whole section, heading included. Every other section stays. -->
 
-<!-- One sentence under the title: what the app is, for whom.
-     Example: A console app that keeps a store's inventory in a csv file and lets a clerk search it. -->
 
 ## Description of the Project
 
 <!-- Three to five sentences. What the application does, who uses it, what problem it solves.
-     Write it for someone who has never seen the workbook: a recruiter, a classmate, you in six months. -->
+- A bsic ledger that keeps a company's transaction history in a csv file. 
 
 ## Features
 
-<!-- One bullet per thing the app can do, in the order of your menu. Mark bonuses.
-     For an API (Capstone 3), one line per endpoint instead: method, path, what it does.
-     Be honest: list what works. If something is half done, say so under Future Work instead.
-     Example:
-     - Shows every product in the store
-     - Searches products by name (bonus) -->
-
--
--
--
+- It allows the user to add deposits, make payments and storing it into the file. 
+- While also being able to view all and search by date.
 
 ## User Stories
 
@@ -33,7 +23,7 @@
      As a [type of user], I want [some goal] so that [some reason].
      Same text as the cards on your GitHub project board. -->
 
-- As a ..., I want ..., so that ...
+- As a user,  I want ..., so that ...
 - As a ..., I want ..., so that ...
 
 ## Setup
@@ -99,26 +89,24 @@
 
 ## Future Work
 
-<!-- What you would add or fix next, one bullet each. Unfinished bonuses belong here. -->
-
--
--
+- Personalize my project to specific thing/company.
 
 ## Resources
 
-<!-- What helped you: the workbook, the week's hub pages, a tutorial, a documentation page. Real links. -->
+All resources used are linked below
 
+- Java Yearup Fall 2026 Java Development Workbooks 2 & 3 <https://github.com/RayMaroun/yearup-fall-section-8-2026/tree/main/pluralsight/java-development
 - Java YearUp Fall 2026 hub: <https://raymaroun.github.io/yearup-java-fall2026/>
--
+- Color text messages <https://www.geeksforgeeks.org/java/how-to-print-colored-text-in-java-console/
+- Sorting method : <https://www.w3schools.com/java/java_advanced_sorting.asp
+
 
 ## Author
 
-<!-- Your name and, if you like, your GitHub profile link. For a team workshop, one line per person with what each one built. -->
-
-- **Your Name**
+- **Autumn Carter**
 
 ## Thanks
 
 <!-- Optional. The people who helped: the instructor, a classmate who debugged with you, a mentor. -->
 
-- Thank you to ... for ...
+- Thank you to Raymound for the skeleton for TransactionTracker class and the README.
