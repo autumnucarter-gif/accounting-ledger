@@ -88,7 +88,6 @@ public class FinancialTracker {
 
                     Transaction addTransaction = new Transaction(date, time, description, vendor, amount);
                     transactions.add(addTransaction);
-
                 }
             }
         } catch (IOException e) {
@@ -96,7 +95,7 @@ public class FinancialTracker {
         }
     }
     private static void askAndSaveTransactions(Scanner myscanner, boolean isDeposit) {
-        System.out.println("Enter date and time (yyyy-MM-dd HH:mm:ss)  ");
+        System.out.println("Enter date and time (yyyy-MM-dd HH:mm:ss) or press Enter for current time: ");
         String dateTimeInput = myscanner.nextLine().trim();
 
         LocalDate date;
@@ -106,13 +105,13 @@ public class FinancialTracker {
             LocalDateTime now = LocalDateTime.now();
             date = now.toLocalDate();
             time = now.toLocalTime();
-        }else {
+        } else {
             try {
                 LocalDateTime parsedDateTIme = LocalDateTime.parse(dateTimeInput, DATETIME_FMT);
                 date = parsedDateTIme.toLocalDate();
                 time = parsedDateTIme.toLocalTime();
-            }catch (DateTimeParseException e) {
-                System.out.println("Invalid date/time format. Transaction canceled" );
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date/time format. Transaction canceled");
                 return;
             }
         }
@@ -123,32 +122,33 @@ public class FinancialTracker {
         String vendor = myscanner.nextLine().trim();
 
         double amount = 0;
-        boolean validAmount = false;
-        while (!validAmount) {
+
+
+        // boolean validAmount = false;
+        while (true) {
             System.out.println("Enter amount (Needs to be a positive value.): ");
-            String amountInput = myscanner.nextLine().trim();
 
-            Double parsedAmount = parseDouble(amountInput);
-            if (parsedAmount == null || parsedAmount <= 0) {
-                System.out.println("Invalid input. (Needs to be a positive value.): ");
-            }else {
-                amount = parsedAmount;
-                validAmount = true;
+            try {
+                amount = Double.parseDouble(myscanner.nextLine());
+
+                if (Double.isFinite(amount) && amount > 0) {
+                    break;
+                }
+                System.out.println("Invalid number format. Please do not use letters or symbols.");
+            }catch (Exception e) {
+                System.out.println("Invalid amound: ");
             }
+        }
 
-        }
-        if (!isDeposit) {
-            amount = -amount;
-        }
         Transaction transaction = new Transaction(date, time, description, vendor, amount);
         transactions.add(transaction);
-        try {
-            BufferedWriter mywriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
+
+        try (BufferedWriter mywriter = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             mywriter.write(transaction.toString());
             mywriter.newLine();
             System.out.println("Transaction added successfully! ");
         } catch (Exception e) {
-            System.out.println("ERRPR: Could not add transaction to file. ");
+            System.out.println("ERROR: Could not add transaction to file. ");
         }
     }
 
