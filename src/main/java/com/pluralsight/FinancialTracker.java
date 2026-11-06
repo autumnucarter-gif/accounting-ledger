@@ -23,14 +23,6 @@ public class FinancialTracker {
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern(TIME_PATTERN);
     private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
 
-
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-
-    /* ------------------------------------------------------------------
-       Main menu
-       ------------------------------------------------------------------ */
     public static void main(String[] args) {
         loadTransactions(FILE_NAME);
 
@@ -124,7 +116,6 @@ public class FinancialTracker {
         double amount = 0;
 
 
-        // boolean validAmount = false;
         while (true) {
             System.out.println("Enter amount (Needs to be a positive value.): ");
 
@@ -162,9 +153,7 @@ public class FinancialTracker {
         askAndSaveTransactions(scanner, false);
     }
 
-    /* ------------------------------------------------------------------
-       Ledger menu
-       ------------------------------------------------------------------ */
+
     private static void ledgerMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
@@ -195,8 +184,8 @@ public class FinancialTracker {
                 t.getDate().format(DATE_FMT),
                 t.getTime().format(TIME_FMT),
                 t.getDescription(),
-                t.getVendor(),// Apply Red or Green
-                t.getAmount()); // Reset color back to default at the end of the line
+                t.getVendor(),
+                t.getAmount());
     }
     private static void printHeader() {
         System.out.println("┌──────────────┬──────────────┬────────────────────────────────┬─────────────────┬────────────────┐");
@@ -206,9 +195,7 @@ public class FinancialTracker {
     private static void printFootHolder() {
         System.out.println("└──────────────┴──────────────┴────────────────────────────────┴─────────────────┴────────────────┘");
     }
-    /* ------------------------------------------------------------------
-       Display helpers: show data in neat columns
-       ------------------------------------------------------------------ */
+
     private static void displayLedger() {
         System.out.println("\n================ All Transactions ================ ");
         if (transactions.isEmpty()) {
@@ -255,9 +242,6 @@ public class FinancialTracker {
         else System.out.println("No payments found. ");
     }
 
-    /* ------------------------------------------------------------------
-       Reports menu
-       ------------------------------------------------------------------ */
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
@@ -303,9 +287,6 @@ public class FinancialTracker {
         }
     }
 
-    /* ------------------------------------------------------------------
-       Reporting helpers
-       ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         printHeader();
         System.out.printf("\n===== Report from %s to %s =====\n", start, end);
