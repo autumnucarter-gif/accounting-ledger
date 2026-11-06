@@ -1,16 +1,8 @@
 # Financial Tracker
 
-<!-- HOW TO USE THIS TEMPLATE
-     Save it as README.md at the root of your project, next to pom.xml. Replace every comment like this one
-     with your own text; comments do not show on GitHub, so what you leave untouched shows as an empty heading.
-     Two sections are optional and say so: Class Diagram, and Data and configuration. When your project does not
-     need one, delete the whole section, heading included. Every other section stays. -->
-
-
 ## Description of the Project
 
-<!-- Three to five sentences. What the application does, who uses it, what problem it solves.
-- A bsic ledger that keeps a company's transaction history in a csv file. 
+- Financial tracker is a basic ledger that keeps a company's transaction history in a csv file. Every transactions date, time, description, vendor, and price.
 
 ## Features
 
@@ -19,14 +11,28 @@
 
 ## User Stories
 
-<!-- The stories you worked from, one per bullet, in the format you learned in Workbook 3b:
-     As a [type of user], I want [some goal] so that [some reason].
-     Same text as the cards on your GitHub project board. -->
+- As the user, I want to be able to filter my transactions, so i can see different transactions from month to month or year to year.
+- As the user, i want to be able to use the filter, so i can filter by any of the categorizes to see any transactions.
+- As the user, I want to be able to use the filter to go by vendor, so i can see all past deposits or payments to specific businesses.
+- As the user, I want to be able to click the deposit option, so I can see all previous deposits from newest to oldest.
+- As the editor, I want to add this method, so the code wont be repetitive under deposit and payment.
+- As the user, I want to view my previous transactions, so I can see all deposit made and payment taken from the account.
+- As the user, I want to use the display payment feature, so i can see all past payments made.
+- As a editor, i need to add methods for all of the options, so the user can properly click through the option with accurate and clear result.
+-  As the user, i want to be able to click on "A" in the Ledger Menu, so i can use the option to check previous transactions.
+-  As the user i want to be able to click on "D" in the Ledger Menu, so I can use the option to see entries that are deposit only.
+-  As the user i want to be able to click on "P" in the Ledger Menu, so I can use the option to see the payments only.
+-  As the user i want to be able to click on "R" in the Ledger Menu, so I can use the option to see the report or custom search for the report.
+- As the editor, i want to complete the methods for the report, so the user can use these features.
+- As the user i want to be able to click on "MTD" in the Report Menu, so I can use the option to see month to month.
+- As the user i want to be able to click on "PM" in the Report Menu, so I can use the option
+- As the user i want to be able to click on "YTD" in the Report Menu, so I can use the option to see year to year
+- As the user i want to be able to click on "PY" in the Report Menu, so I can use the option to see  As the user i want to be able to click on "H" in the Ledger Menu, so I can use the option to go back to the home screen
 
-- As a user,  I want ..., so that ...
-- As a ..., I want ..., so that ...
 
 ## Setup
+
+
 
 ### Prerequisites
 
@@ -79,14 +85,7 @@
 
 ## A piece of code I am proud of
 
-<!-- Paste one short block of your own code (5 to 15 lines) between the three backticks, then write two
-     or three sentences: what it does and why you chose to write it that way. This is what you show on
-     demo day and what you talk about in an interview. -->
-
-```java
-
-```
-
+![img.png](img.png)
 ## Future Work
 
 - Personalize my project to specific thing/company.

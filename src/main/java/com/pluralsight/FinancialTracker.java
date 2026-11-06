@@ -118,6 +118,7 @@ public class FinancialTracker {
         while (!validAmount) {
             System.out.println("Enter amount (Needs to be a positive value.): ");
             String amountInput = myscanner.nextLine().trim();
+
             Double parsedAmount = parseDouble(amountInput);
             if (parsedAmount == null || parsedAmount <= 0) {
                 System.out.println("Invalid input. (Needs to be a positive value.): ");
@@ -179,18 +180,14 @@ public class FinancialTracker {
         }
     }
     private static void printTransactions(Transaction t) {
-        // Determine the correct color code depending on whether it is a payment or deposit
-        String colorCode = (t.getAmount() < 0) ? ANSI_RED : ANSI_GREEN;
 
         // Print the vertical border brackets along with colored amount text
         System.out.printf("│ %-12s │ %-12s │ %-30s │ %-15s │ %s$%10.2f%s │\n",
                 t.getDate().format(DATE_FMT),
                 t.getTime().format(TIME_FMT),
                 t.getDescription(),
-                t.getVendor(),
-                colorCode, // Apply Red or Green
-                t.getAmount(),
-                ANSI_RESET); // Reset color back to default at the end of the line
+                t.getVendor(),// Apply Red or Green
+                t.getAmount()); // Reset color back to default at the end of the line
     }
     private static void printHeader() {
         System.out.println("┌──────────────┬──────────────┬────────────────────────────────┬─────────────────┬────────────────┐");
