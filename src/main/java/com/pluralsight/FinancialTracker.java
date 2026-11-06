@@ -182,7 +182,7 @@ public class FinancialTracker {
     private static void printTransactions(Transaction t) {
 
         // Print the vertical border brackets along with colored amount text
-        System.out.printf("│ %-12s │ %-12s │ %-30s │ %-15s │ %s$%10.2f%s │\n",
+        System.out.printf("│ %-12s │ %-12s │ %-30s │ %-15s │ $%10.2f │\n",
                 t.getDate().format(DATE_FMT),
                 t.getTime().format(TIME_FMT),
                 t.getDescription(),
