@@ -268,11 +268,34 @@ public class FinancialTracker {
        Reporting helpers
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
-        // TODO – iterate transactions, print those within the range
+        System.out.printf("\n===== Report from %s to %s =====\n", start, end);
+        boolean matched = false;
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+             Transaction transaction = transactions.get(i);
+             LocalDate date = transaction.getDate();
+             if (date.isAfter(start) || date.isEqual(start) && (date.isBefore(end) || date.isEqual(end))) {
+                 printTransactions(transaction);
+                 matched = true;
+             }
+
+        }
+        if (!matched) System.out.println("No matching records found. ");
     }
 
     private static void filterTransactionsByVendor(String vendor) {
-        // TODO – iterate transactions, print those with matching vendor
+        System.out.printf("\n===== Report for Vendor: %s =====\n", vendor);
+        boolean matched = false;
+
+        for (int i = transactions.size() - 1 ; i >= 0; i--) {
+            Transaction transaction = transactions.get(i);
+            if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+                printTransactions(transaction);
+                matched = true;
+            }
+        }
+        if (!matched) {
+            System.out.println("No matching record found: ");
+        }
     }
 
     private static void customSearch(Scanner scanner) {
