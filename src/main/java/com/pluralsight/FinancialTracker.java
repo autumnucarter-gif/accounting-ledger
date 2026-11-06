@@ -60,6 +60,15 @@ public class FinancialTracker {
     }
 
     public static void loadTransactions(String fileName) {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Sorry ERROR! 0");
+                return;
+            }
+        }
         try {
             transactions.clear();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
