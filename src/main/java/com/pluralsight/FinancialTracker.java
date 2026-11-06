@@ -316,7 +316,29 @@ public class FinancialTracker {
         System.out.println("Enter the exact amount: ");
         Double exactAmount = parseDouble(scanner.nextLine().trim());
 
+        System.out.println("\n================ Custom Search Results ================ ");
+        boolean matched = false;
 
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = transactions.get(i);
+
+            //Filter for Start Date
+            if (startDate != null && transaction.getDate().isBefore(startDate)) continue;
+            //Filter for End date
+            if (endDate != null && transaction.getDate().isAfter(endDate)) continue;
+            //Filter for Description
+            if (!description.isEmpty() && !transaction.getDescription().toLowerCase().contains(description)) continue;
+            //Filter for Vendors
+            if (!vendorName.isEmpty() && !transaction.getVendor().equalsIgnoreCase(vendorName)) continue;
+            //Filter for Price
+            if (exactAmount != null && Math.abs(transaction.getAmount() - exactAmount) > 0.001) continue;
+
+            printTransactions(transaction);
+            matched = true;
+        }
+        if (!matched) {
+            System.out.println("No transactions matched to custom filters: ");
+        }
     }
 
 
