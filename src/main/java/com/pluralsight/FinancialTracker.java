@@ -22,8 +22,10 @@ public class FinancialTracker {
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern(TIME_PATTERN);
     private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
-    public static final String ANSI_RED = "\u001B[0m";
-    public static final String ANSI_RESET = "\u001B[31m";
+
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
 
     /* ------------------------------------------------------------------
@@ -36,6 +38,7 @@ public class FinancialTracker {
         boolean running = true;
 
         while (running) {
+            System.out.println();
             System.out.println("Welcome to TransactionApp");
             System.out.println("Choose an option:");
             System.out.println("D) Add Deposit");
@@ -50,7 +53,7 @@ public class FinancialTracker {
                 case "P" -> addPayment(scanner);
                 case "L" -> ledgerMenu(scanner);
                 case "X" -> running = false;
-                default -> System.out.println(ANSI_RED + "Invalid option" + ANSI_RESET);
+                default -> System.out.println("Invalid option" );
             }
         }
         scanner.close();
@@ -100,7 +103,7 @@ public class FinancialTracker {
                 date = parsedDateTIme.toLocalDate();
                 time = parsedDateTIme.toLocalTime();
             }catch (DateTimeParseException e) {
-                System.out.println(ANSI_RED + "Invalid date/time format. Transaction canceled" + ANSI_RESET);
+                System.out.println("Invalid date/time format. Transaction canceled" );
                 return;
             }
         }
@@ -117,7 +120,7 @@ public class FinancialTracker {
             String amountInput = myscanner.nextLine().trim();
             Double parsedAmount = parseDouble(amountInput);
             if (parsedAmount == null || parsedAmount <= 0) {
-                System.out.println(ANSI_RED + "Invalid input. (Needs to be a positive value.): " + ANSI_RESET);
+                System.out.println("Invalid input. (Needs to be a positive value.): ");
             }else {
                 amount = parsedAmount;
                 validAmount = true;
@@ -130,10 +133,10 @@ public class FinancialTracker {
         Transaction transaction = new Transaction(date, time, description, vendor, amount);
         transactions.add(transaction);
         try {
-            BufferedWriter mywriter = new BufferedWriter(new FileWriter(FILE_NAME));
+            BufferedWriter mywriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
             mywriter.write(transaction.toString());
             mywriter.newLine();
-            System.out.println(ANSI_GREEN + "Transaction added successfully! " + ANSI_RESET);
+            System.out.println("Transaction added successfully! ");
         } catch (Exception e) {
             System.out.println("ERRPR: Could not add transaction to file. ");
         }
@@ -176,12 +179,26 @@ public class FinancialTracker {
         }
     }
     private static void printTransactions(Transaction t) {
-        System.out.printf("%-12s %-12s %-30s %-25s $%10.2f\n",
+        // Determine the correct color code depending on whether it is a payment or deposit
+        String colorCode = (t.getAmount() < 0) ? ANSI_RED : ANSI_GREEN;
+
+        // Print the vertical border brackets along with colored amount text
+        System.out.printf("│ %-12s │ %-12s │ %-30s │ %-15s │ %s$%10.2f%s │\n",
                 t.getDate().format(DATE_FMT),
                 t.getTime().format(TIME_FMT),
                 t.getDescription(),
                 t.getVendor(),
-                t.getAmount());
+                colorCode, // Apply Red or Green
+                t.getAmount(),
+                ANSI_RESET); // Reset color back to default at the end of the line
+    }
+    private static void printHeader() {
+        System.out.println("┌──────────────┬──────────────┬────────────────────────────────┬─────────────────┬────────────────┐");
+        System.out.println("│         Date │ Time         │ Description                    │ Vendor          │ Amount         │");
+        System.out.println("├──────────────┼──────────────┼────────────────────────────────┼─────────────────┼────────────────┤");
+    }
+    private static void printFootHolder() {
+        System.out.println("└──────────────┴──────────────┴────────────────────────────────┴─────────────────┴────────────────┘");
     }
     /* ------------------------------------------------------------------
        Display helpers: show data in neat columns
@@ -192,28 +209,44 @@ public class FinancialTracker {
             System.out.println("None found");
             return;
         }
+        printHeader();
         for (int i = transactions.size() - 1; i >= 0 ; i--) {
             Transaction t = transactions.get(i);
             printTransactions(t);
         }
+        printFootHolder();
     }
 
     private static void displayDeposits() {
+        System.out.println("\n============ Deposits ============ ");
+
+        boolean matched = false;
+
         for (int i = transactions.size() - 1; i >= 0 ; i-- ) {
             Transaction t = transactions.get(i);
             if (t.getAmount() > 0) {
+                if (!matched) { printHeader(); matched = true; }
                 printTransactions(t);
             }
         }
+        if (matched) printFootHolder();
+        else System.out.println("No deposits found. ");
     }
 
     private static void displayPayments() {
+        System.out.println("\n============ Payments ============ ");
+
+        boolean matched = false;
+
         for (int i = transactions.size() - 1; i>= 0; i--) {
             Transaction t = transactions.get(i);
             if (t.getAmount() < 0 ) {
+                if (!matched) { printHeader(); matched = true; }
                 printTransactions(t);
             }
         }
+        if (matched) printFootHolder();
+        else System.out.println("No payments found. ");
     }
 
     /* ------------------------------------------------------------------
@@ -268,6 +301,7 @@ public class FinancialTracker {
        Reporting helpers
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
+        printHeader();
         System.out.printf("\n===== Report from %s to %s =====\n", start, end);
         boolean matched = false;
         for (int i = transactions.size() - 1; i >= 0; i--) {
@@ -277,7 +311,6 @@ public class FinancialTracker {
                  printTransactions(transaction);
                  matched = true;
              }
-
         }
         if (!matched) System.out.println("No matching records found. ");
     }
@@ -344,12 +377,18 @@ public class FinancialTracker {
 
 
     private static LocalDate parseDate(String s) {
-        /* TODO – return LocalDate or null */
-        return null;
+        if (s.isEmpty()) return null;
+        try {
+            return LocalDate.parse(s, DATE_FMT);
+        }catch (DateTimeParseException e) {
+            System.out.println("Warning: Invalid date entry skipped");
+            return null;
+        }
     }
 
     private static Double parseDouble(String s) {
-        /* TODO – return Double   or null */
+
         return null;
     }
+
 }
